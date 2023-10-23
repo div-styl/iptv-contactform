@@ -46,10 +46,10 @@ app.post("/Contact", (req, res) => {
     from: USER_EMAIL,
     to: USER_EMAIL,
     subject: `${subject}`,
-    html: `<p style="color: blue; font-size: 16px;">First Name: ${first_name}</p>
-           <p style="color: green; font-size: 16px;">Last Name: ${last_name}</p>
-           <p style="color: red; font-size: 16px;">Email: ${email}</p>
-           <p style="font-size: 16px;">Message: <em>${message}</em></p>`,
+    html: `<p style="font-size: 20px;">First Name: ${first_name}</p>
+           <p style="font-size: 20px;">Last Name: ${last_name}</p>
+           <p style="font-size: 16px;">Email: ${email}</p>
+           <p style="font-size: 16px;">Message: <b>${message} <b></p>`,
   };
 
   // Send mail with defined transport object
