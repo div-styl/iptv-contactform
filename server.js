@@ -78,7 +78,7 @@ app.post("/Contact", (req, res) => {
 
   // Setup email data
   const mailOptions = {
-    from: email,
+    from: USER_EMAIL,
     to: USER_EMAIL,
     subject: `${subject}`,
     html: `
