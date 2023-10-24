@@ -6,6 +6,18 @@ const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const USER_EMAIL = process.env.USER_EMAIL;
+const USER_PASS = process.env.USER_PASS;
+
+const emailconfig = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: USER_EMAIL, // replace with your email
+    pass: USER_PASS, // replace with your password or use an app password
+  },
+
+  secure: true,
+});
 
 // Middleware
 app.use(
@@ -35,20 +47,6 @@ app.post("/", (req, res) => {
 app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
 
-  // Create reusable transporter object using the default SMTP transport
-  const USER_EMAIL = process.env.USER_EMAIL;
-  const USER_PASS = process.env.USER_PASS;
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: USER_EMAIL, // replace with your email
-      pass: USER_PASS, // replace with your password or use an app password
-    },
-
-    secure: true,
-  });
-
   // Setup email data
   let mailOptions = {
     from: USER_EMAIL,
@@ -60,7 +58,7 @@ app.post("/Contact", (req, res) => {
   };
 
   // Send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
+  emailconfig.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error);
     }
