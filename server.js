@@ -5,7 +5,6 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
-app.use(express.json());
 const PORT = process.env.PORT || 3001;
 
 // Middleware
@@ -24,21 +23,23 @@ app.options("/Contact", cors()); // Handle preflight requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const USER_EMAIL = process.env.USER_EMAIL;
-const USER_PASS = process.env.USER_PASS;
-
 // API endpoint for placing the order
+
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
     req.body;
   console.log(req.body);
 });
+
 // Contact form endpoint
 app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
 
-  // Create reusable contactme object using the default SMTP transport
-  const contactme = nodemailer.createTransport({
+  // Create reusable transporter object using the default SMTP transport
+  const USER_EMAIL = process.env.USER_EMAIL;
+  const USER_PASS = process.env.USER_PASS;
+
+  const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: USER_EMAIL, // replace with your email
@@ -59,7 +60,7 @@ app.post("/Contact", (req, res) => {
   };
 
   // Send mail with defined transport object
-  contactme.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error);
     }
