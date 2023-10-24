@@ -58,7 +58,8 @@ app.post("/", (req, res) => {
     }
     //console.log(req.body);
     const data = req.body;
-    console.log(JSON.stringify(data, null, 4));
+    const paresedData = JSON.parse(JSON.stringify(data, null, 4));
+    console.log(paresedData);
     console.log("Message sent: %s", info.messageId);
     res.header("Access-Control-Allow-Credentials", true);
     res.send("Message sent successfully");
