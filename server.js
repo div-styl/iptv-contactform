@@ -41,11 +41,14 @@ app.post("/", (req, res) => {
     req.body;
   console.log(req.body);
 
+  const subject = `Order N-${orderCounter}`;
+
+  orderCounter++;
   // Setup email data
   const mailOptions = {
-    from: USER_EMAIL,
-    to: email,
-    subject: "New Order", // Change this subject as needed
+    from: email,
+    to: USER_EMAIL,
+    subject: subject,
     html: `
       <p style="font-size: 20px;">Full Name: ${full_name}</p>
       <p style="font-size: 16px;">Email: <span style="font-weight: bold;">${email}</span></p>
@@ -75,7 +78,7 @@ app.post("/Contact", (req, res) => {
 
   // Setup email data
   const mailOptions = {
-    from: USER_EMAIL,
+    from: email,
     to: USER_EMAIL,
     subject: `${subject}`,
     html: `
