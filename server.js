@@ -44,7 +44,7 @@ app.post("/", (req, res) => {
   // Setup email data
   const mailOptions = {
     from: email,
-    to: USER_EMAIL,
+    to: email,
     subject: "New Order", // Change this subject as needed
     html: `
       <p style="font-size: 20px;">Full Name: ${full_name}</p>
