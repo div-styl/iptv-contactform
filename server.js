@@ -31,7 +31,6 @@ const USER_PASS = process.env.USER_PASS;
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
     req.body;
-  console.log(req.body);
   const sendorder = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -57,7 +56,9 @@ app.post("/", (req, res) => {
     if (error) {
       return console.log(error);
     }
+    console.log(req.body);
     console.log("Message sent: %s", info.messageId);
+    res.header("Access-Control-Allow-Credentials", true);
     res.send("Message sent successfully");
   });
   
