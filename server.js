@@ -23,23 +23,54 @@ app.options("/Contact", cors()); // Handle preflight requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// API endpoint for placing the order
+const USER_EMAIL = process.env.USER_EMAIL;
+const USER_PASS = process.env.USER_PASS;
 
+
+// API endpoint for placing the order
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
     req.body;
   console.log(req.body);
+  const sendorder = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: USER_EMAIL, 
+      pass: USER_PASS,
+    },
+    secure: true,
+  })
+
+  let ordermail  = {
+    from: email,
+    to: USER_EMAIL,
+    subject: "New Order",
+    html: `<p style="font-size: 20px;">Full Name: ${full_name}</p>
+           <p style="font-size: 16px;">Email: <span style="font-weight: bold;">${email}</span></p>
+           <p style="font-size: 16px;">Device Type: <span style="font-weight: bold;">${device_type}</span></p>
+           <p style="font-size: 16px;">Device Name: <span style="font-weight: bold;">${device_name}</span></p>
+           <p style="font-size: 16px;">Plan: <span style="font-weight: bold;">${plan}</span></p>
+           <p style="font-size: 16px;">Message: <span style="font-weight: bold; color: #e74c3c;">${message} </span></p>`,
+  };
+
+  sendorder.sendMail(ordermail, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log("Message sent: %s", info.messageId);
+    res.send("Message sent successfully");
+  });
+  
 });
 
 // Contact form endpoint
 app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
 
-  // Create reusable transporter object using the default SMTP transport
-  const USER_EMAIL = process.env.USER_EMAIL;
-  const USER_PASS = process.env.USER_PASS;
+  // Create reusable contactme object using the default SMTP transport
 
-  const transporter = nodemailer.createTransport({
+
+  const contactme = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: USER_EMAIL, // replace with your email
@@ -60,7 +91,7 @@ app.post("/Contact", (req, res) => {
   };
 
   // Send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
+  contactme.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error);
     }
