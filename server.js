@@ -31,41 +31,17 @@ const USER_PASS = process.env.USER_PASS;
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
     req.body;
-  const sendorder = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: USER_EMAIL,
-      pass: USER_PASS,
-    },
-    secure: true,
-  });
-
-  let ordermail = {
-    from: email,
-    to: USER_EMAIL,
-    subject: "New Order",
-    html: `<p style="font-size: 20px;">Full Name: ${full_name}</p>
-           <p style="font-size: 16px;">Email: <span style="font-weight: bold;">${email}</span></p>
-           <p style="font-size: 16px;">Device Type: <span style="font-weight: bold;">${device_type}</span></p>
-           <p style="font-size: 16px;">Device Name: <span style="font-weight: bold;">${device_name}</span></p>
-           <p style="font-size: 16px;">Plan: <span style="font-weight: bold;">${plan}</span></p>
-           <p style="font-size: 16px;">Message: <span style="font-weight: bold; color: #e74c3c;">${message} </span></p>`,
+  const parseddata = {
+    full_name: full_name,
+    email: email,
+    device_type: device_type,
+    device_name: device_name,
+    plan: plan,
+    message: message,
   };
-
-  sendorder.sendMail(ordermail, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    //console.log(req.body);
-    const data = req.body;
-    const paresedData = JSON.parse(JSON.stringify(data, null, 4));
-    console.log(paresedData);
-    console.log("Message sent: %s", info.messageId);
-    res.header("Access-Control-Allow-Credentials", true);
-    res.send("Message sent successfully");
-  });
+  res.json(parseddata);
+  console.log(parseddata);
 });
-
 // Contact form endpoint
 app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
