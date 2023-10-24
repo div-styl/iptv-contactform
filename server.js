@@ -31,16 +31,7 @@ const USER_PASS = process.env.USER_PASS;
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
     req.body;
-  const parseddata = {
-    full_name: full_name,
-    email: email,
-    device_type: device_type,
-    device_name: device_name,
-    plan: plan,
-    message: message,
-  };
-  res.json(parseddata);
-  console.log(parseddata);
+  console.log(req.body);
 });
 // Contact form endpoint
 app.post("/Contact", (req, res) => {
