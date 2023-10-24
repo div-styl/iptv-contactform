@@ -27,7 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const USER_EMAIL = process.env.USER_EMAIL;
 const USER_PASS = process.env.USER_PASS;
 
-
 // API endpoint for placing the order
 app.post("/", (req, res) => {
   const { full_name, email, device_type, device_name, plan, message } =
@@ -35,13 +34,13 @@ app.post("/", (req, res) => {
   const sendorder = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: USER_EMAIL, 
+      user: USER_EMAIL,
       pass: USER_PASS,
     },
     secure: true,
-  })
+  });
 
-  let ordermail  = {
+  let ordermail = {
     from: email,
     to: USER_EMAIL,
     subject: "New Order",
@@ -57,12 +56,13 @@ app.post("/", (req, res) => {
     if (error) {
       return console.log(error);
     }
-    console.log(req.body);
+    //console.log(req.body);
+    const data = req.body;
+    console.log(JSON.stringify(data, null, 4));
     console.log("Message sent: %s", info.messageId);
     res.header("Access-Control-Allow-Credentials", true);
     res.send("Message sent successfully");
   });
-  
 });
 
 // Contact form endpoint
