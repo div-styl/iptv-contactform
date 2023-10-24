@@ -23,6 +23,14 @@ app.options("/Contact", cors()); // Handle preflight requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// API endpoint for placing the order
+
+app.post("/", (req, res) => {
+  const { full_name, email, device_type, device_name, plan, message } =
+    req.body;
+  console.log(req.body);
+});
+
 // Contact form endpoint
 app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
