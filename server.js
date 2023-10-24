@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 3001;
 
 // Middleware
@@ -69,8 +70,6 @@ app.post("/Contact", (req, res) => {
   const { first_name, last_name, email, subject, message } = req.body;
 
   // Create reusable contactme object using the default SMTP transport
-
-
   const contactme = nodemailer.createTransport({
     service: "gmail",
     auth: {
