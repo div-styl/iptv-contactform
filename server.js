@@ -41,9 +41,6 @@ app.post("/", (req, res) => {
     req.body;
   console.log(req.body);
 
-  const subject = `Order N-${orderCounter}`;
-  orderCounter++;
-  console.log(subject);
   // Setup email data
   const mailOptions = {
     from: email,
