@@ -42,13 +42,13 @@ app.post("/", (req, res) => {
   console.log(req.body);
 
   const subject = `Order N-${orderCounter}`;
-
   orderCounter++;
+  console.log(subject);
   // Setup email data
   const mailOptions = {
     from: email,
     to: USER_EMAIL,
-    subject: subject,
+    subject: 'New Order',
     html: `
       <p style="font-size: 20px;">Full Name: ${full_name}</p>
       <p style="font-size: 16px;">Email: <span style="font-weight: bold;">${email}</span></p>
