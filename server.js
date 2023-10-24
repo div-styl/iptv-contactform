@@ -28,7 +28,7 @@ app.use(
     ],
     credentials: true,
     optionsSuccessStatus: 200,
-  });
+  }));
 app.options("/Contact", cors()); // Handle preflight requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
