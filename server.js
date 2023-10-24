@@ -30,6 +30,7 @@ app.use(
     optionsSuccessStatus: 200,
   }));
 app.options("/Contact", cors()); // Handle preflight requests
+app.options("/", cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
